@@ -98,6 +98,7 @@ function generate() {
   if (co) parts.push('CO');
   if (ec) parts.push('EC');
   parts.push(dir);
+  parts.push('Wnd');
 
   document.getElementById('output').innerText = parts.join('_');
 }
