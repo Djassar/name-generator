@@ -57,9 +57,9 @@
 <p>Module type:</p>
 <label><input type="radio" name="module" value="Module" checked> Active module</label>
 <label><input type="radio" name="module" value="Rinse"> Rinse module</label>
-
+<label><input type="checkbox" id="b"> Bath level control</label>
 <p>Pump number and order (Example: 2PP, 4PPCP):</p>
-<input type="text" id="pumps" placeholder="PPCP"><br>
+<input type="text" id="pumps" placeholder="PPCP">
 
 <label>Frequency inverters:</label> <input type="number" id="f" min="0" value="0">
 <label><input type="checkbox" id="fp"> Pump filter pressure</label>
@@ -82,6 +82,7 @@
 function generate() {
   const style = document.querySelector('input[name="style"]:checked').value;
   const module = document.querySelector('input[name="module"]:checked').value;
+  const b = document.getElementById('b').checked;
   const pumps = document.getElementById('pumps').value.toUpperCase().replace(/[^PCVS]/g, '');
   const f = parseInt(document.getElementById('f').value);
   const fp = document.getElementById('fp').checked;
@@ -94,6 +95,7 @@ function generate() {
 
   let parts = [style];
   parts.push(module);
+  if (b) parts.push('B');
   if (pumps) parts.push(pumps.length + pumps);
   if (f > 0) parts.push(f + 'F');
   if (fp) parts.push('FP');
