@@ -83,7 +83,7 @@ function generate() {
   const style = document.querySelector('input[name="style"]:checked').value;
   const module = document.querySelector('input[name="module"]:checked').value;
   const b = document.getElementById('b').checked;
-  const pumps = document.getElementById('pumps').value.toUpperCase().replace(/[^PCVS]/g, '');
+  const pumps = parseInt(document.getElementById('p').value);
   const f = parseInt(document.getElementById('f').value);
   const fp = document.getElementById('fp').checked;
   const d = parseInt(document.getElementById('d').value);
@@ -96,7 +96,7 @@ function generate() {
   let parts = [style];
   parts.push(module);
   if (b) parts.push('B');
-  if (pumps) parts.push(pumps.length + pumps);
+  if (pumps) parts.push(pumps + 'P');
   if (f > 0) parts.push(f + 'F');
   if (fp) parts.push('FP');
   if (d > 0) parts.push(d + 'D');
