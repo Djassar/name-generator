@@ -71,8 +71,8 @@
 <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
 
 <p>Rectifiers type:</p>
-<label><input type="radio" name="rectifier" value="KRAFT"> KRAFT</label>
-<label><input type="radio" name="rectifier" value="PE"> PE</label>
+<label><input type="radio" id="kr" onclick="toggleRectifier()"> KRAFT</label>
+<label><input type="radio" id="pe" onclick="toggleRectifier()"> PE</label>
 
 <p>Direction:</p>
 <label><input type="radio" name="dir" value="L" checked> Left</label>
@@ -96,12 +96,14 @@ function generate() {
   const ph = document.getElementById('ph').checked;
   const co = document.getElementById('co').checked;
   const ec = document.getElementById('ec').checked;
-  const rectifier = document.querySelector('input[name="rectifier"]:checked').value;
+  const kr = document.getElementById('kr').checked;
+  const pe = document.getElementById('pe').checked;
   const dir = document.querySelector('input[name="dir"]:checked').value;
 
   let parts = [style];
   parts.push(module);
-  parts.push(rectifier);
+  if (kr) parts.push('KRAFT');
+  if (pe) parts.push('PE');
   if (b) parts.push('B');
   if (p) parts.push(p + 'P');
   if (f > 0) parts.push(f + 'F');
@@ -129,13 +131,28 @@ function updateRectifiersState() {
   const module = document.querySelector('input[name="module"]:checked').value;
   const isGalvano = module === 'Galvano';
 
-  document.getElementById('rectifier').disabled = !isGalvano;
+  document.getElementById('kr').disabled = !isGalvano;
+  document.getElementById('pe').disabled = !isGalvano;
 
   // Если не Galvano, также снимаем чекбоксы
   if (!isGalvano) {
-    document.getElementById('rectifier').checked = false;
+    document.getElementById('kr').checked = false;
+    document.getElementById('pe').checked = false;
   }
 }
+
+
+function toggleRectifier(selected) {
+  const kr = document.getElementById('kr');
+  const pe = document.getElementById('pe');
+
+  if (selected === 'kr' && kr.checked) {
+    pe.checked = false;
+  } else if (selected === 'pe' && pe.checked) {
+    kr.checked = false;
+  }
+}
+
 
 window.onload = updateRectifiersState;
 </script>
