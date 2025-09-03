@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,19 +12,25 @@
   }
   .container {
     background: white;
-   
     text-align: left;
   }
   h2 {
+    margin-bottom: 10px;
+  }
+  select {
+    padding: 5px;
+    width: 225px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
     margin-bottom: 10px;
   }
   label {
     display: block;
     margin: 8px 0;
   }
-  input[type="text"], input[type="number"] {
+  input[type="text"], input[type="number"]{
     padding: 5px;
-    width: 200px;
+    width: 210px;
     margin-bottom: 10px;
   }
   button {
@@ -45,6 +50,11 @@
     margin-top: 10px;
     display: inline-block;
   }
+  
+  .hidden {
+    display: none;
+  }
+
 </style>
 </head>
 <body>
@@ -54,39 +64,61 @@
 <p>Design style:</p>
 <label><input type="radio" name="style" value="ML" checked> Military</label>
 <label><input type="radio" name="style" value="NG"> NGU</label>
-<p>Module type:</p>
-<label><input type="radio" name="module" value="Module" onclick="updateRectifiersState()" checked> Active module</label>
-<label><input type="radio" name="module" value="Rinse" onclick="updateRectifiersState()"> Rinse module</label>
-<label><input type="radio" name="module" value="Permanganate" onclick="updateRectifiersState()"> Permanganate module</label>
-<label><input type="radio" name="module" value="Eless" onclick="updateRectifiersState()"> Eless module</label>
-<label><input type="radio" name="module" value="Galvano" onclick="updateRectifiersState()"> Galvano module</label>
-<label><input type="checkbox" id="b"> Bath level control</label>
-<label>Pumps number:</label> <input type="number" id="p" min="0" value="0">
-<label>Frequency inverters:</label> <input type="number" id="f" min="0" value="0">
-<label><input type="checkbox" id="fp"> Pump filter pressure</label>
-<label>Dosing units:</label> <input type="number" id="d" min="0" value="0">
-<label>Ultrasonics:</label> <input type="number" id="u" min="0" value="0">
-<label><input type="checkbox" id="ph"> pH Measurement</label>
-<label><input type="checkbox" id="co"> Conductivity Measurement</label>
-<label><input type="checkbox" id="ec"> Exhaust Condenser</label>
 
-<p>Rectifiers type:</p>
-<label><input type="checkbox" id="kr" onclick="toggleRectifier('kr')"> KRAFT</label>
-<label><input type="checkbox" id="pe" onclick="toggleRectifier('pe')"> PE</label>
+<p>Module type:</p>
+<select id="module" onchange="updateRectifiersState()">
+  <option value="" disabled selected>Select type...</option>
+  <option value="Module">Active module</option>
+  <option value="Rinse">Rinse module</option>
+  <option value="Handling">Handling module</option>
+  <option value="Permanganate">Permanganate module</option>
+  <option value="Eless">Eless module</option>
+  <option value="Galvano">Galvano module</option>
+</select>
+
+<div id="generalFields">
+  <label><input type="checkbox" id="b"> Bath level control</label>
+  <label>Pumps number:</label> <input type="number" id="p" min="0" value="0">
+  <label>Frequency inverters:</label> <input type="number" id="f" min="0" value="0">
+  <label><input type="checkbox" id="fp"> Pump filter pressure</label>
+  <label>Dosing units:</label> <input type="number" id="d" min="0" value="0">
+  <label>Ultrasonics:</label> <input type="number" id="u" min="0" value="0">
+  <label><input type="checkbox" id="ph"> pH Measurement</label>
+  <label><input type="checkbox" id="co"> Conductivity Measurement</label>
+  <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
+
+
+  <div id="rectifiers" class="hidden">
+    <p>Rectifiers type:</p>
+    <label><input type="checkbox" id="kr" onclick="toggleRectifier('kr')"> KRAFT</label>
+    <label><input type="checkbox" id="pe" onclick="toggleRectifier('pe')"> PE</label>
+  </div>
+</div>
+
+
+<div id="drives" class="hidden">
+  <label>Drives:</label> <input type="number" id="dr" min="0" value="0">
+  <label><input type="checkbox" id="spr"> Drive spray</label>
+  <p>Drive inverter type:</p>
+  <label><input type="checkbox" id="nordac" onclick="toggleDrives('nordac')"> Nordac</label>
+  <label><input type="checkbox" id="delta"  onclick="toggleDrives('delta')"> Delta</label>
+  <label><input type="checkbox" id="sew"    onclick="toggleDrives('sew')"> SEW</label>
+  <label><input type="checkbox" id="lenze"  onclick="toggleDrives('lenze')"> Lenze</label>
+
+</div>
 
 <p>Direction:</p>
-<label><input type="radio" name="dir" value="L" checked> Left</label>
-<label><input type="radio" name="dir" value="R"> Right</label><br>
+<label><input type="radio" name="dir" value="L" checked> From Right to Left</label>
+<label><input type="radio" name="dir" value="R"> From Left to Right</label><br>
 
 <button onclick="generate()">Generate Name</button>
-<!--<button onclick="copyToClipboard()">Copy to Clipboard</button>-->
 <span id="output"></span>
 </div>
 
 <script>
 function generate() {
   const style = document.querySelector('input[name="style"]:checked').value;
-  const module = document.querySelector('input[name="module"]:checked').value;
+  const module = document.getElementById('module').value;
   const b = document.getElementById('b').checked;
   const p = parseInt(document.getElementById('p').value);
   const f = parseInt(document.getElementById('f').value);
@@ -98,12 +130,26 @@ function generate() {
   const ec = document.getElementById('ec').checked;
   const kr = document.getElementById('kr').checked;
   const pe = document.getElementById('pe').checked;
+  const spr = document.getElementById('spr').checked;
+  const dr = parseInt(document.getElementById('dr').value);
+  const nordac = document.getElementById('nordac')?.checked;
+  const delta = document.getElementById('delta')?.checked;
+  const sew = document.getElementById('sew')?.checked;
+  const lenze = document.getElementById('lenze')?.checked;
   const dir = document.querySelector('input[name="dir"]:checked').value;
 
   let parts = [style];
   parts.push(module);
   if (kr) parts.push('KRAFT');
   if (pe) parts.push('PE');
+
+  if (dr > 0) parts.push(dr + 'DR');
+  if (spr) parts.push('SPR');
+  if (nordac) parts.push('Nordac');
+  if (delta) parts.push('Delta');
+  if (sew) parts.push('SEW');
+  if (lenze) parts.push('Lenze');
+
   if (b) parts.push('B');
   if (p) parts.push(p + 'P');
   if (f > 0) parts.push(f + 'F');
@@ -119,28 +165,42 @@ function generate() {
   document.getElementById('output').innerText = parts.join('_');
 }
 
-//function copyToClipboard() {
-//  const text = document.getElementById('output').innerText;
-//  if (!text) return;
-//  navigator.clipboard.writeText(text).then(() => {
-//    alert("Copied to clipboard: " + text);
-//  });
-//}
-
 function updateRectifiersState() {
-  const module = document.querySelector('input[name="module"]:checked').value;
+  const module = document.getElementById('module').value;
   const isGalvano = module === 'Galvano';
+  const isHandling = module === 'Handling';
 
   document.getElementById('kr').disabled = !isGalvano;
   document.getElementById('pe').disabled = !isGalvano;
 
-  // Если не Galvano, также снимаем чекбоксы
+
+  // Rectifiers
+  const rectifiersDiv = document.getElementById('rectifiers');
+  rectifiersDiv.classList.toggle('hidden', !isGalvano);
+  document.getElementById('kr').disabled = !isGalvano;
+  document.getElementById('pe').disabled = !isGalvano;
   if (!isGalvano) {
     document.getElementById('kr').checked = false;
     document.getElementById('pe').checked = false;
   }
-}
 
+  // Drives
+  const drivesDiv = document.getElementById('drives');
+  drivesDiv.classList.toggle('hidden', !isHandling);
+  if (!isHandling) {
+    document.getElementById('dr').checked = false;
+    document.getElementById('spr').checked = false;
+    document.getElementById('nordac').checked = false;
+    document.getElementById('delta').checked = false;
+    document.getElementById('sew').checked = false;
+    document.getElementById('lenze').checked = false;
+  }
+
+  // General fields
+  const generalFields = document.getElementById('generalFields');
+  generalFields.classList.toggle('hidden', isHandling);
+
+}
 
 function toggleRectifier(selected) {
   const kr = document.getElementById('kr');
@@ -153,6 +213,30 @@ function toggleRectifier(selected) {
   }
 }
 
+function toggleDrives(selected) {
+  const nordac = document.getElementById('nordac');
+  const delta = document.getElementById('delta');
+  const sew = document.getElementById('sew');
+  const lenze = document.getElementById('lenze');
+
+  if (selected === 'nordac' && nordac.checked) {
+    delta.checked = false;
+    sew.checked = false;
+    lenze.checked = false;
+  } else if (selected === 'delta' && delta.checked) {
+    nordac.checked = false;
+    sew.checked = false;
+    lenze.checked = false;
+  } else if (selected === 'sew' && sew.checked) {
+    nordac.checked = false;
+    delta.checked = false;
+    lenze.checked = false;
+  } else if (selected === 'lenze' && lenze.checked) {
+    nordac.checked = false;
+    sew.checked = false;
+    delta.checked = false;
+  }
+}
 
 window.onload = updateRectifiersState;
 </script>
