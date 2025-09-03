@@ -55,11 +55,11 @@
 <label><input type="radio" name="style" value="ML" checked> Military</label>
 <label><input type="radio" name="style" value="NG"> NGU</label>
 <p>Module type:</p>
-<label><input type="radio" name="module" value="Module" checked> Active module</label>
-<label><input type="radio" name="module" value="Rinse"> Rinse module</label>
-<label><input type="radio" name="module" value="Permanganate"> Permanganate module</label>
-<label><input type="radio" name="module" value="Eless"> Eless module</label>
-<label><input type="radio" name="module" value="Galvano"> Galvano module</label>
+<label><input type="radio" name="module" value="Module" onclick="updateRectifiersState()" checked> Active module</label>
+<label><input type="radio" name="module" value="Rinse" onclick="updateRectifiersState()"> Rinse module</label>
+<label><input type="radio" name="module" value="Permanganate" onclick="updateRectifiersState()"> Permanganate module</label>
+<label><input type="radio" name="module" value="Eless" onclick="updateRectifiersState()"> Eless module</label>
+<label><input type="radio" name="module" value="Galvano" onclick="updateRectifiersState()"> Galvano module</label>
 <label><input type="checkbox" id="b"> Bath level control</label>
 <label>Pumps number:</label> <input type="number" id="p" min="0" value="0">
 <label>Frequency inverters:</label> <input type="number" id="f" min="0" value="0">
@@ -71,8 +71,8 @@
 <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
 
 <p>Rectifiers type:</p>
-<label><input type="checkbox" id="kr" onclick="updateRectifiersState()"> KRAFT</label>
-<label><input type="checkbox" id="pe" onclick="updateRectifiersState()"> PE</label>
+<label><input type="checkbox" id="kr"> KRAFT</label>
+<label><input type="checkbox" id="pe"> PE</label>
 
 <p>Direction:</p>
 <label><input type="radio" name="dir" value="L" checked> Left</label>
@@ -140,6 +140,19 @@ function updateRectifiersState() {
     document.getElementById('pe').checked = false;
   }
 }
+
+
+function toggleRectifier(selected) {
+  const kr = document.getElementById('kr');
+  const pe = document.getElementById('pe');
+
+  if (selected === 'kr' && kr.checked) {
+    pe.checked = false;
+  } else if (selected === 'pe' && pe.checked) {
+    kr.checked = false;
+  }
+}
+
 
 window.onload = updateRectifiersState;
 </script>
