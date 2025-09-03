@@ -77,15 +77,17 @@
 </select>
 
 <div id="generalFields">
-  <label><input type="checkbox" id="b"> Bath level control</label>
+  <div id="hideGalvano1"><label><input type="checkbox" id="b"> Bath level control</label></div>
   <label>Pumps number:</label> <input type="number" id="p" min="0" value="0">
   <label>Frequency inverters:</label> <input type="number" id="f" min="0" value="0">
-  <label><input type="checkbox" id="fp"> Pump filter pressure</label>
   <label>Dosing units:</label> <input type="number" id="d" min="0" value="0">
-  <label>Ultrasonics:</label> <input type="number" id="u" min="0" value="0">
-  <label><input type="checkbox" id="ph"> pH Measurement</label>
-  <label><input type="checkbox" id="co"> Conductivity Measurement</label>
-  <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
+  <div id="hideGalvano2">
+    <label><input type="checkbox" id="fp"> Pump filter pressure</label>
+    <label>Ultrasonics:</label> <input type="number" id="u" min="0" value="0">
+    <label><input type="checkbox" id="ph"> pH Measurement</label>
+    <label><input type="checkbox" id="co"> Conductivity Measurement</label>
+    <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
+  </div>
 
 
   <div id="rectifiers" class="hidden">
@@ -183,6 +185,12 @@ function updateRectifiersState() {
     document.getElementById('kr').checked = false;
     document.getElementById('pe').checked = false;
   }
+
+  // General fields
+  const hideGalvano1 = document.getElementById('hideGalvano1');
+  hideGalvano1.classList.toggle('hidden', isGalvano);  
+  const hideGalvano2 = document.getElementById('hideGalvano2');
+  hideGalvano2.classList.toggle('hidden', isGalvano);
 
   // Drives
   const drivesDiv = document.getElementById('drives');
