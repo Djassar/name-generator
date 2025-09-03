@@ -196,7 +196,7 @@ function updateRectifiersState() {
   const drivesDiv = document.getElementById('drives');
   drivesDiv.classList.toggle('hidden', !isHandling);
   if (!isHandling) {
-    document.getElementById('dr').checked = false;
+    document.getElementById('dr').checked = 0;
     document.getElementById('spr').checked = false;
     document.getElementById('nordac').checked = false;
     document.getElementById('delta').checked = false;
