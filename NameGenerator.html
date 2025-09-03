@@ -70,6 +70,10 @@
 <label><input type="checkbox" id="co"> Conductivity Measurement</label>
 <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
 
+<p>Rectifiers type:</p>
+<label><input type="checkbox" id="kr" onclick="updateRectifiersState()"> KRAFT</label>
+<label><input type="checkbox" id="pe" onclick="updateRectifiersState()"> PE</label>
+
 <p>Direction:</p>
 <label><input type="radio" name="dir" value="L" checked> Left</label>
 <label><input type="radio" name="dir" value="R"> Right</label><br>
@@ -92,10 +96,14 @@ function generate() {
   const ph = document.getElementById('ph').checked;
   const co = document.getElementById('co').checked;
   const ec = document.getElementById('ec').checked;
+  const kr = document.getElementById('kr').checked;
+  const pe = document.getElementById('pe').checked;
   const dir = document.querySelector('input[name="dir"]:checked').value;
 
   let parts = [style];
   parts.push(module);
+  if (kr) parts.push('KRAFT');
+  if (pe) parts.push('PE');
   if (b) parts.push('B');
   if (p) parts.push(p + 'P');
   if (f > 0) parts.push(f + 'F');
@@ -118,6 +126,22 @@ function generate() {
 //    alert("Copied to clipboard: " + text);
 //  });
 //}
+
+function updateRectifiersState() {
+  const module = document.querySelector('input[name="module"]:checked').value;
+  const isGalvano = module === 'Galvano';
+
+  document.getElementById('kr').disabled = !isGalvano;
+  document.getElementById('pe').disabled = !isGalvano;
+
+  // Если не Galvano, также снимаем чекбоксы
+  if (!isGalvano) {
+    document.getElementById('kr').checked = false;
+    document.getElementById('pe').checked = false;
+  }
+}
+
+window.onload = updateRectifiersState;
 </script>
 </body>
 </html>
