@@ -129,13 +129,11 @@ function updateRectifiersState() {
   const module = document.querySelector('input[name="module"]:checked').value;
   const isGalvano = module === 'Galvano';
 
-  document.getElementById('kr').disabled = !isGalvano;
-  document.getElementById('pe').disabled = !isGalvano;
+  document.getElementById('rectifier').disabled = !isGalvano;
 
   // Если не Galvano, также снимаем чекбоксы
   if (!isGalvano) {
-    document.getElementById('kr').checked = false;
-    document.getElementById('pe').checked = false;
+    document.getElementById('rectifier').checked = false;
   }
 }
 
