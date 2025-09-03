@@ -71,8 +71,8 @@
 <label><input type="checkbox" id="ec"> Exhaust Condenser</label>
 
 <p>Rectifiers type:</p>
-<label><input type="checkbox" id="kr" onclick="toggleRectifier(kr)"> KRAFT</label>
-<label><input type="checkbox" id="pe" onclick="toggleRectifier(pe)"> PE</label>
+<label><input type="radio" name="rectifier" value="KRAFT"> KRAFT</label>
+<label><input type="radio" name="rectifier" value="PE"> PE</label>
 
 <p>Direction:</p>
 <label><input type="radio" name="dir" value="L" checked> Left</label>
@@ -96,14 +96,12 @@ function generate() {
   const ph = document.getElementById('ph').checked;
   const co = document.getElementById('co').checked;
   const ec = document.getElementById('ec').checked;
-  const kr = document.getElementById('kr').checked;
-  const pe = document.getElementById('pe').checked;
+  const rectifier = document.querySelector('input[name="rectifier"]:checked').value;
   const dir = document.querySelector('input[name="dir"]:checked').value;
 
   let parts = [style];
   parts.push(module);
-  if (kr) parts.push('KRAFT');
-  if (pe) parts.push('PE');
+  parts.push(rectifier);
   if (b) parts.push('B');
   if (p) parts.push(p + 'P');
   if (f > 0) parts.push(f + 'F');
@@ -140,19 +138,6 @@ function updateRectifiersState() {
     document.getElementById('pe').checked = false;
   }
 }
-
-
-function toggleRectifier(selected) {
-  const kr = document.getElementById('kr');
-  const pe = document.getElementById('pe');
-
-  if (selected === 'kr' && kr.checked) {
-    pe.checked = false;
-  } else if (selected === 'pe' && pe.checked) {
-    kr.checked = false;
-  }
-}
-
 
 window.onload = updateRectifiersState;
 </script>
