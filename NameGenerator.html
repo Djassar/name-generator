@@ -74,6 +74,7 @@
   <option value="Permanganate">Permanganate module</option>
   <option value="Eless">Eless module</option>
   <option value="Galvano">Galvano module</option>
+  <option value="Dryer">Dryer module</option>  
 </select>
 
 <div id="generalFields">
@@ -106,7 +107,6 @@
   <label><input type="checkbox" id="delta"  onclick="toggleDrives('delta')"> Delta</label>
   <label><input type="checkbox" id="sew"    onclick="toggleDrives('sew')"> SEW</label>
   <label><input type="checkbox" id="lenze"  onclick="toggleDrives('lenze')"> Lenze</label>
-
 </div>
 
 <p>Direction:</p>
@@ -171,6 +171,7 @@ function updateRectifiersState() {
   const module = document.getElementById('module').value;
   const isGalvano = module === 'Galvano';
   const isHandling = module === 'Handling';
+  const isDryer = module === 'Dryer';
 
   document.getElementById('kr').disabled = !isGalvano;
   document.getElementById('pe').disabled = !isGalvano;
@@ -179,6 +180,7 @@ function updateRectifiersState() {
   // Rectifiers
   const rectifiersDiv = document.getElementById('rectifiers');
   rectifiersDiv.classList.toggle('hidden', !isGalvano);
+
   document.getElementById('kr').disabled = !isGalvano;
   document.getElementById('pe').disabled = !isGalvano;
   if (!isGalvano) {
@@ -196,7 +198,7 @@ function updateRectifiersState() {
   const drivesDiv = document.getElementById('drives');
   drivesDiv.classList.toggle('hidden', !isHandling);
   if (!isHandling) {
-    document.getElementById('dr').checked = 0;
+    document.getElementById('dr').value = 0;
     document.getElementById('spr').checked = false;
     document.getElementById('nordac').checked = false;
     document.getElementById('delta').checked = false;
@@ -206,7 +208,8 @@ function updateRectifiersState() {
 
   // General fields
   const generalFields = document.getElementById('generalFields');
-  generalFields.classList.toggle('hidden', isHandling);
+  generalFields.classList.toggle('hidden', isHandling || isDryer);
+
 
 }
 
